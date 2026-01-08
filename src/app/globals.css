@@ -1,0 +1,98 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@layer base {
+  :root {
+    /* Primary Colors */
+    --color-primary-100: #ffc3ab;
+    --color-primary-200: #ff9256;
+    --color-primary-300: #ff6c02;
+    --color-primary-400: #c74700;
+    --color-primary-500: #9d3200;
+
+    /* Secondary Colors */
+    --color-secondary-100: #c4a9ff;
+    --color-secondary-200: #8b55ff;
+    --color-secondary-300: #633cff;
+    --color-secondary-400: #3c0cf6;
+    --color-secondary-500: #2a00bc;
+
+    /* Neutral Colors */
+    --color-neutral-100: #ffffff;
+    --color-neutral-200: #e0e0e0;
+    --color-neutral-300: #d2d2d2;
+    --color-neutral-400: #b0b0b0;
+    --color-neutral-500: #a4a4a4;
+    --color-neutral-600: #8e8e8e;
+    --color-neutral-700: #777777;
+    --color-neutral-800: #606060;
+    --color-neutral-900: #4a4a4a;
+    --color-neutral-1000: #333333;
+
+    /* Semantic Colors - Success */
+    --color-success-100: #84abb8;
+    --color-success-200: #1c716b;
+
+    /* Semantic Colors - Warning */
+    --color-warning-100: #f7e543;
+    --color-warning-200: #dfb400;
+
+    /* Semantic Colors - Error */
+    --color-error-100: #fb3748;
+    --color-error-200: #d00416;
+
+    /* Semantic Color Aliases */
+    --color-primary: var(--color-primary-300);
+    --color-secondary: var(--color-secondary-300);
+    --color-background: var(--color-neutral-100);
+    --color-background-subtle: var(--color-neutral-200);
+    --color-text-main: var(--color-neutral-1000);
+    --color-text-muted: var(--color-neutral-700);
+    --color-text-disabled: var(--color-neutral-500);
+    --color-border: var(--color-neutral-300);
+    --color-border-subtle: var(--color-neutral-200);
+    --color-success: var(--color-success-200);
+    --color-warning: var(--color-warning-200);
+    --color-error: var(--color-error-200);
+
+    /* Typography - Font Family */
+    --font-family-base: var(--font-inter), 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+
+    /* Typography - Font Sizes */
+    /* Headings */
+    --font-size-h1: 3.5rem; /* 56px */
+    --font-size-h2: 3rem; /* 48px */
+    --font-size-h3: 2.5rem; /* 40px */
+    --font-size-h4: 2rem; /* 32px */
+    --font-size-h5: 1.5rem; /* 24px */
+    --font-size-h6: 1.25rem; /* 20px */
+    --font-size-h7: 1.125rem; /* 18px */
+
+    /* Body */
+    --font-size-b1: 1.125rem; /* 18px */
+    --font-size-b2: 1rem; /* 16px */
+    --font-size-b3: 0.9375rem; /* 15px */
+    --font-size-b4: 0.875rem; /* 14px */
+    --font-size-b5: 0.75rem; /* 12px */
+
+    /* Typography - Font Weights */
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+
+    /* Typography - Line Heights */
+    --line-height-tight: 1.2;
+    --line-height-normal: 1.5;
+    --line-height-relaxed: 1.75;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-text-main;
+    font-family: var(--font-family-base);
+  }
+}
