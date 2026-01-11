@@ -54,7 +54,7 @@ export default function RegisterForm() {
   return (
     <>
       <Toaster position="top-center" />
-      <div className='relative flex min-h-screen w-full flex-col overflow-hidden'>
+      <div className='relative flex h-screen w-full flex-col overflow-hidden'>
         {/* Background Image */}
         <div className='fixed inset-0 z-0'>
           <Image
@@ -85,7 +85,7 @@ export default function RegisterForm() {
         </div>
 
         {/* Main Content - Centered Modal */}
-        <div className='relative z-10 flex flex-1 items-center justify-center px-4 pt-24 pb-10'>
+        <div className='relative z-10 flex flex-1 items-center justify-center px-4 pt-24 pb-4'>
           <div className='w-full max-w-3xl'>
             <div className='rounded-2xl bg-white p-8 shadow-xl'>
               {/* Header */}
@@ -310,7 +310,7 @@ export default function RegisterForm() {
         </div>
 
         {/* Footer */}
-        <div className='relative z-10 mt-auto border-t border-white/10 px-6 py-4'>
+        <div className='relative z-10 mt-auto border-t border-white/10 px-6 py-4 shrink-0'>
           <div className='mx-auto flex max-w-8xl flex-col items-center justify-between gap-4 md:flex-row'>
             <p className='text-sm text-white/80'>
               © 2025 Studiofy, All rights reserved.

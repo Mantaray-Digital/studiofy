@@ -29,7 +29,26 @@ export function useVerifyEmail() {
     },
 
     onError: (error) => {
-      if (error.error) toast.error(error.error.details, { id: TOAST_ID });
+      if (error.error) {
+        const errorMessage = error.error.details || '';
+        // Check if error is related to OTP/token validation
+        const isOtpError = 
+          errorMessage.toLowerCase().includes('token') ||
+          errorMessage.toLowerCase().includes('code') ||
+          errorMessage.toLowerCase().includes('otp') ||
+          errorMessage.toLowerCase().includes('resettoken') ||
+          errorMessage.toLowerCase().includes('bad request') ||
+          errorMessage.toLowerCase().includes('invalid') ||
+          errorMessage.toLowerCase().includes('validation');
+        
+        if (isOtpError) {
+          toast.error('OTP code is incorrect. Please check and try again.', { id: TOAST_ID });
+        } else {
+          toast.error(errorMessage, { id: TOAST_ID });
+        }
+      } else {
+        toast.error('An error occurred. Please try again.', { id: TOAST_ID });
+      }
     },
   });
 
@@ -49,7 +68,11 @@ export function useVerifyEmail() {
     },
 
     onError: (error) => {
-      if (error.error) toast.error(error.error.details, { id: TOAST_ID });
+      if (error.error) {
+        toast.error(error.error.details, { id: TOAST_ID });
+      } else {
+        toast.error('An error occurred. Please try again.', { id: TOAST_ID });
+      }
     },
   });
 

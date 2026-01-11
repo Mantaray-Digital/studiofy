@@ -128,7 +128,7 @@ function ResetPasswordFormContent() {
     disabled:cursor-not-allowed
     disabled:opacity-50
   ">
-                  {isPending ? 'Sending...' : 'Send Reset Link'}
+                  {isPending ? 'Sending...' : 'Send Reset Code'}
                 </button>
 
                 {/* Back to Login Link */}
