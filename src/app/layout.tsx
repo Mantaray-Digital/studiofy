@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { Providers } from './providers';
+import { Header } from '@/components/ui/Header';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -10,8 +11,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'My App',
-  description: 'Generated with Next.js',
+  title: 'Studiofy - Studio-Quality Product Photos. Instantly',
+  description:
+    'Generate professional, studio-quality product photos instantly with AI.',
 };
 
 export default function RootLayout({
@@ -22,7 +24,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable}>
       <body>
-        <Providers>{children}</Providers>
+        <Providers>
+          <Header />
+          {children}
+        </Providers>
       </body>
     </html>
   );
