@@ -180,11 +180,13 @@ export default function LoginForm() {
                 <button
                   type='button'
                   className='flex w-full items-center justify-center gap-3 rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-900 transition-colors hover:bg-gray-50'>
-                  <img
-                    src='/google-logo.svg'
-                    alt='Google'
-                    className='h-5 w-5'
-                  />
+                  <Image
+                  src='/google-logo.svg'
+                  alt='Google'
+                  width={20}
+                  height={20}
+                  className='h-5 w-5'
+                />
                   <span className='font-medium'>Continue with Google</span>
                 </button>
 

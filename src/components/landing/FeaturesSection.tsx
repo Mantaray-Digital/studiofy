@@ -12,9 +12,9 @@ interface FeatureCardProps {
 
 function FeatureCard({ image, title, description }: FeatureCardProps) {
   return (
-    <div className="flex-shrink-0 w-[336px] bg-[#2d2e30] rounded-[24px] p-8 flex flex-col h-[537px]">
+    <div className="flex-shrink-0 w-[280px] md:w-[336px] bg-[#2d2e30] rounded-[20px] md:rounded-[24px] p-5 md:p-8 flex flex-col h-[440px] md:h-[537px]">
       {/* Image */}
-      <div className="w-[272px] h-[272px] rounded-lg overflow-hidden bg-[#1a1a1a]">
+      <div className="w-full md:w-[272px] h-[200px] md:h-[272px] rounded-lg overflow-hidden bg-[#1a1a1a]">
         <Image
           src={image}
           alt={title}
@@ -25,9 +25,9 @@ function FeatureCard({ image, title, description }: FeatureCardProps) {
       </div>
 
       {/* Content */}
-      <div className="flex flex-col gap-5 pt-5 pb-4 flex-1">
-        <h3 className="text-[#ededed] text-xl font-bold leading-6">{title}</h3>
-        <p className="text-[#9ca3af] text-base leading-5">{description}</p>
+      <div className="flex flex-col gap-3 md:gap-5 pt-4 md:pt-5 pb-3 md:pb-4 flex-1">
+        <h3 className="text-[#ededed] text-lg md:text-xl font-bold leading-6">{title}</h3>
+        <p className="text-[#9ca3af] text-sm md:text-base leading-5">{description}</p>
       </div>
 
       {/* Link */}
@@ -41,17 +41,17 @@ function FeatureCard({ image, title, description }: FeatureCardProps) {
 
 function MoreToolsCard() {
   return (
-    <div className="flex-shrink-0 w-[336px] bg-[#2d2e30] rounded-[24px] p-8 flex flex-col h-[537px] items-center justify-center">
-      <div className="pb-8">
+    <div className="flex-shrink-0 w-[280px] md:w-[336px] bg-[#2d2e30] rounded-[20px] md:rounded-[24px] p-5 md:p-8 flex flex-col h-[440px] md:h-[537px] items-center justify-center">
+      <div className="pb-6 md:pb-8">
         <Sparkles className="w-4 h-4 text-[#f3f4f6]" />
       </div>
-      <h4 className="text-[#f3f4f6] text-xl font-bold leading-6">10+ more tools</h4>
-      <p className="text-[#9ca3af] text-base leading-5 pb-8">
+      <h4 className="text-[#f3f4f6] text-lg md:text-xl font-bold leading-6">10+ more tools</h4>
+      <p className="text-[#9ca3af] text-sm md:text-base leading-5 pb-6 md:pb-8">
         are waiting in Studiofy.
       </p>
       <button
         type="button"
-        className="bg-[#5b58fb] text-white text-sm font-medium px-6 py-5 rounded-md hover:bg-[#4a47e0] transition-colors"
+        className="bg-[#5b58fb] text-white text-sm font-medium px-5 md:px-6 py-4 md:py-5 rounded-md hover:bg-[#4a47e0] transition-colors"
       >
         Test for free
       </button>
@@ -124,27 +124,27 @@ export function FeaturesSection() {
 
   return (
     <section id="features" className="bg-[#14161b] px-4 md:px-[100px] py-0">
-      <div className="max-w-[1280px] mx-auto py-32 px-4 md:px-8">
+      <div className="max-w-[1280px] mx-auto py-16 md:py-32 px-4 md:px-8">
         {/* Header */}
-        <div className="flex items-center gap-4 mb-0">
+        <div className="flex items-center gap-3 md:gap-4 mb-0">
           <Image
             src="/images/logo-white.svg"
             alt="Studiofy"
             width={40}
             height={40}
-            className="w-10 h-10"
+            className="w-8 h-8 md:w-10 md:h-10"
           />
-          <span className="text-[#f3f4f6] text-sm font-medium">Studiofy</span>
+          <span className="text-[#f3f4f6] text-xs md:text-sm font-medium">Studiofy</span>
         </div>
 
         {/* Title Row */}
-        <div className="flex flex-col lg:flex-row gap-10 lg:gap-40 items-start lg:items-center pb-32">
-          <h2 className="text-[#f3f4f6] text-4xl md:text-[56px] font-bold leading-[1.2]">
+        <div className="flex flex-col lg:flex-row gap-6 md:gap-10 lg:gap-40 items-start lg:items-center pb-12 md:pb-32">
+          <h2 className="text-[#f3f4f6] text-3xl md:text-4xl lg:text-[56px] font-bold leading-[1.2]">
             Your all-in-one AI
             <br />
             photo studio
           </h2>
-          <p className="text-[#e1e1e1] text-lg md:text-xl leading-[1.25] max-w-[480px]">
+          <p className="text-[#e1e1e1] text-base md:text-lg lg:text-xl leading-[1.25] max-w-[480px]">
             Simplify your product photography with tools that handle everything.
             Combine into simple and fast workflows to get the desired results in
             seconds.

@@ -98,11 +98,13 @@ export default function RegisterForm() {
                 <button
                   type='button'
                   className='mb-6 flex w-full items-center justify-center gap-3 rounded-lg border border-gray-200 bg-gray-200 px-4 py-3 text-gray-700 transition-colors cursor-pointer'>
-                  <img
-                    src='/google-logo.svg'
-                    alt='Google'
-                    className='h-5 w-5'
-                  />
+                  <Image
+                  src='/google-logo.svg'
+                  alt='Google'
+                  width={20}
+                  height={20}
+                  className='h-5 w-5'
+                />
                   <span className='font-medium'>Google</span>
                 </button>
 
@@ -124,9 +126,11 @@ export default function RegisterForm() {
                     </label>
                     <div className='relative'>
                       <span className='pointer-events-none absolute inset-y-0 left-3 flex items-center '>
-                        <img
+                        <Image
                           src='/firstName-Icon.svg'
                           alt='First Name Icon'
+                          width={20}
+                          height={20}
                           className='h-5 w-5'
                         />
                       </span>
@@ -152,9 +156,11 @@ export default function RegisterForm() {
                     </label>
                     <div className='relative'>
                       <span className='pointer-events-none absolute inset-y-0 left-3 flex items-center'>
-                        <img
+                        <Image
                           src='/lastName-Icon.svg'
                           alt='Last Name Icon'
+                          width={20}
+                          height={20}
                           className='h-5 w-5'
                         />
                       </span>

@@ -1,0 +1,20 @@
+I have terminated the process that was blocking the port. You should now be able to start the development server.
+
+Please try running `pnpm run dev` again.
+
+Regarding the warning about the workspace root, you can silence it by creating a `next.config.js` file at the root of your project with the following content:
+
+```javascript
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  experimental: {
+    turbopack: {
+      root: __dirname,
+    },
+  },
+};
+
+module.exports = nextConfig;
+```
+
+However, this is just a warning and should not prevent your application from running. Let's first make sure the development server starts correctly.

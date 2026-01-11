@@ -1,0 +1,18 @@
+<svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" style="display: block;" viewBox="0 0 800 550.993" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Group" filter="url(#filter0_f_0_4)">
+<path id="Vector" d="M523.255 211.653C484.704 190.823 466.973 153.276 414.035 150.351C359.796 147.354 323.342 178.58 281.294 198.283C281.192 198.33 281.09 198.378 280.988 198.425L413.783 273.736L523.255 211.653Z" fill="var(--fill-0, #0A7CFF)"/>
+<path id="Vector_2" d="M523.255 211.652L413.783 273.736H642.39C633.141 253.675 602.612 242.712 571.23 231.444C554.439 225.414 537.404 219.298 523.255 211.652Z" fill="var(--fill-0, #0A7CFF)"/>
+<path id="Vector_3" d="M413.783 273.736L280.988 198.425C267.761 204.602 252.833 210.243 237.916 215.879C196.686 231.457 155.549 246.999 150.712 273.736H413.783Z" fill="var(--fill-0, #FF469D)"/>
+<path id="Vector_4" d="M150.712 273.736C143.923 311.251 199.955 342.304 250.855 366.492L413.783 273.736H150.712Z" fill="var(--fill-0, #FF7847)"/>
+<path id="Vector_5" d="M600.817 379.907C648.552 353.748 659.195 310.196 642.39 273.736H413.783L600.817 379.907Z" fill="var(--fill-0, #00DFDF)"/>
+<path id="Vector_6" d="M413.783 273.736L250.855 366.492C303.488 391.505 355.555 396.553 424.348 399.279L424.367 399.279L413.783 273.736Z" fill="var(--fill-0, #7733FF)"/>
+<path id="Vector_7" d="M600.817 379.907L413.783 273.736L424.367 399.279C487.269 401.771 555.951 404.492 600.817 379.907Z" fill="var(--fill-0, #00DFDF)"/>
+</g>
+<defs>
+<filter id="filter0_f_0_4" x="-2.25793e-06" y="2.31812e-06" width="800" height="550.993" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="75.0751" result="effect1_foregroundBlur_0_4"/>
+</filter>
+</defs>
+</svg>

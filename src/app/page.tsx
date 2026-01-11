@@ -5,6 +5,9 @@ import {
   FeaturesSection,
   HowItWorksSection,
   BenefitsSection,
+  BeforeAfterSection,
+  PricingSection,
+  CTASection,
 } from '@/components/landing';
 
 export default function Home() {
@@ -18,6 +21,9 @@ export default function Home() {
       <FeaturesSection />
       <HowItWorksSection />
       <BenefitsSection />
+      <BeforeAfterSection />
+      <PricingSection />
+      <CTASection />
     </main>
   );
 }

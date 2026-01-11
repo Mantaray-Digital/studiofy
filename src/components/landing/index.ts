@@ -4,3 +4,6 @@ export { ProductGallery } from './ProductGallery';
 export { FeaturesSection } from './FeaturesSection';
 export { HowItWorksSection } from './HowItWorksSection';
 export { BenefitsSection } from './BenefitsSection';
+export { BeforeAfterSection } from './BeforeAfterSection';
+export { PricingSection } from './PricingSection';
+export { CTASection } from './CTASection';
