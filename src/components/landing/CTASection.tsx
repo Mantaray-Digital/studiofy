@@ -33,7 +33,7 @@ export function CTASection() {
         </p>
 
         {/* CTA Button */}
-        <MetallicButton href="/signup" className="text-[22px] min-w-[226px]">
+        <MetallicButton href="/generate" className="text-[22px] min-w-[226px]">
           Generate
         </MetallicButton>
       </div>

@@ -28,7 +28,7 @@ export function Header() {
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-14">
           <Link
-            href="#generate"
+            href="/generate"
             className="text-lg font-medium text-[#222] hover:text-[var(--color-blue-600)] transition-colors"
           >
             Generate
@@ -91,7 +91,7 @@ export function Header() {
         <div className="md:hidden absolute top-full left-0 right-0 bg-white shadow-lg border-t border-gray-100 z-50">
           <nav className="flex flex-col p-4 gap-4">
             <Link
-              href="#generate"
+              href="/generate"
               className="text-lg font-medium text-[#222] hover:text-[var(--color-blue-600)] transition-colors py-2"
               onClick={() => setIsMobileMenuOpen(false)}
             >
@@ -132,7 +132,7 @@ export function Header() {
                       'linear-gradient(130deg, rgba(211,212,213,0.15) 13%, rgba(139,145,147,0.15) 15%, rgba(87,95,99,0.15) 18%, rgba(55,65,69,0.15) 19%, rgba(43,54,58,0.15) 19.5%, rgba(52,62,66,0.15) 23%, rgba(77,85,89,0.15) 27%, rgba(117,123,126,0.15) 33%, rgba(173,176,177,0.15) 38%, rgba(205,205,206,0.15) 42%, rgba(151,156,158,0.15) 47%, rgba(72,83,87,0.15) 51%, rgba(112,117,120,0.15) 57%, rgba(165,165,166,0.15) 63%, rgba(255,255,255,0.15) 79%, rgba(79,79,83,0.15) 87%, rgba(165,165,167,0.15) 95%)',
                   }}
                 />
-                <span className="relative">Sign Up</span>
+                <span className="relative"> Sign Up</span>
               </Link>
             </div>
           </nav>

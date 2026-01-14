@@ -19,7 +19,9 @@ export function ConditionalLayout({
 
   const isDashboardRoute = pathname?.startsWith('/profile');
 
-  const showMainLayout = !isAuthRoute && !isDashboardRoute;
+  const isGenerateRoute = pathname?.startsWith('/generate');
+
+  const showMainLayout = !isAuthRoute && !isDashboardRoute && !isGenerateRoute;
 
   return (
     <>

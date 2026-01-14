@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { MetallicButton } from '@/components/ui/MetallicButton';
+import Link from 'next/link';
 
 export function GenerateInput() {
   return (
@@ -31,7 +32,7 @@ export function GenerateInput() {
 
           {/* Generate button */}
           <MetallicButton className="w-full cursor-pointer md:w-auto h-[44px] md:h-[50px] px-6 md:px-8 rounded-[10px] md:rounded-[14px] text-base md:text-xl">
-            Generate
+          <Link href="/generate">Generate</Link>
           </MetallicButton>
         </div>
 
