@@ -10,18 +10,25 @@ export function ConditionalLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const isAuthRoute = pathname?.startsWith('/login') || 
-                      pathname?.startsWith('/signup') || 
-                      pathname?.startsWith('/reset-password') || 
+
+  const isAuthRoute = pathname?.startsWith('/login') ||
+                      pathname?.startsWith('/signup') ||
+                      pathname?.startsWith('/reset-password') ||
                       pathname?.startsWith('/verify-email') ||
                       pathname?.startsWith('/authGoogle');
 
+  const isDashboardRoute = pathname?.startsWith('/profile');
+
+  const showMainLayout = !isAuthRoute && !isDashboardRoute;
+
   return (
     <>
-      {!isAuthRoute && <Header />}
+      {showMainLayout && <Header />}
       {children}
-      {!isAuthRoute && <Footer />}
+      {showMainLayout && <Footer />}
     </>
   );
 }
+
+
 
