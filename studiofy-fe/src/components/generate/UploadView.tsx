@@ -36,6 +36,7 @@ export function UploadView({ onUpload }: UploadViewProps) {
           type: file.type,
           size: file.size,
           url: URL.createObjectURL(file),
+          file, // Store original file for upload
         };
         onUpload(uploadedFile);
       }
@@ -53,6 +54,7 @@ export function UploadView({ onUpload }: UploadViewProps) {
           type: file.type,
           size: file.size,
           url: URL.createObjectURL(file),
+          file, // Store original file for upload
         };
         onUpload(uploadedFile);
       }
