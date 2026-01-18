@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Delete, UploadedFiles, UseGuards, UseInterceptors, HttpCode, HttpStatus } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Action, type AppAbility } from 'src/ability/ability.factory';
@@ -49,5 +49,37 @@ export class UsersController {
       profilePic: files?.profilePic?.[0], // single file
       identity: files?.identity || [], // keep all uploaded identity files
     });
+  }
+
+  @UseGuards(JwtAuthGuard, AbilitiesGuard)
+  @CheckAbility({
+    action: Action.Delete,
+    subject: User,
+  })
+  @Delete(':id')
+  @HttpCode(HttpStatus.OK)
+  @ResponseMessage('User account deleted successfully')
+  async delete(
+    @Param('id') id: string,
+    @AbilityParam() ability: AppAbility,
+  ) {
+    await this.usersService.softDelete(id, ability);
+    return null;
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('password')
+  @HttpCode(HttpStatus.OK)
+  @ResponseMessage('Password updated successfully')
+  async updatePassword(
+    @UserParam() user: UserDocument,
+    @Body() body: { currentPassword: string; newPassword: string },
+  ) {
+    await this.usersService.updatePassword(
+      user._id.toString(),
+      body.currentPassword,
+      body.newPassword,
+    );
+    return null;
   }
 }

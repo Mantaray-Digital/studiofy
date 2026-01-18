@@ -9,12 +9,14 @@ import {
   cancelSubscription,
   getBillingHistory,
   downloadInvoice,
+  getCreditHistory,
 } from '@/api/profile.api';
 import { ProfileSettings } from '@/types/profile.types';
 
 export const PROFILE_QUERY_KEY = ['profile'];
 export const SUBSCRIPTION_QUERY_KEY = ['subscription'];
 export const BILLING_HISTORY_QUERY_KEY = ['billing-history'];
+export const CREDIT_HISTORY_QUERY_KEY = ['credit-history'];
 
 export function useProfile() {
   return useQuery({
@@ -29,7 +31,8 @@ export function useUpdateProfile() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: Partial<ProfileSettings>) => updateProfile(data),
+    mutationFn: ({ userId, data }: { userId: string; data: Partial<ProfileSettings> }) =>
+      updateProfile(userId, data),
     onMutate: () => {
       toast.loading('Updating profile...', { id: TOAST_ID });
     },
@@ -101,5 +104,13 @@ export function useDownloadInvoice() {
     onError: (error: { error?: { details?: string } }) => {
       toast.error(error?.error?.details || 'Failed to download invoice', { id: TOAST_ID });
     },
+  });
+}
+
+export function useCreditHistory(page = 1, limit = 20) {
+  return useQuery({
+    queryKey: [...CREDIT_HISTORY_QUERY_KEY, page, limit],
+    queryFn: () => getCreditHistory(page, limit),
+    staleTime: 5 * 60 * 1000,
   });
 }

@@ -51,6 +51,31 @@ export interface Invoice {
   downloadUrl?: string;
 }
 
+// Credit History Types
+export type CreditTransactionType = 'USAGE' | 'REFUND' | 'PURCHASE' | 'BONUS';
+
+export interface CreditTransaction {
+  id: string;
+  type: CreditTransactionType;
+  description: string;
+  amount: number;
+  balanceAfter: number;
+  createdAt: string;
+  resourceId: string | null;
+}
+
+export interface CreditHistoryMeta {
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}
+
+export interface CreditHistoryResponse {
+  data: CreditTransaction[];
+  meta: CreditHistoryMeta;
+}
+
 // Project Types
 export interface ProjectListing {
   title: string;
@@ -75,13 +100,15 @@ export interface ProjectMeta {
 export interface Project {
   _id: string;
   name: string;
-  thumbnailUrl: string;
-  outputs: ProjectOutputs;
-  meta: ProjectMeta;
+  thumbnail_url: string;
+  outputs?: ProjectOutputs;
+  meta?: ProjectMeta;
   createdAt: string;
 }
 
 // Bookmark Types
+export type BookmarkType = 'image' | 'text';
+
 export interface Bookmark {
   id: string;
   name: string;
@@ -90,16 +117,25 @@ export interface Bookmark {
   createdAt: string;
 }
 
+export interface CreateBookmarkDto {
+  projectId: string;
+  type: BookmarkType;
+  content: string;
+}
+
 // Settings Types
 export interface ProfileSettings {
-  fullName: string;
-  email: string;
+  fullName?: string;
+  email?: string;
+  firstName?: string;
+  lastName?: string;
+  profilePic?: string;
 }
 
 export interface SecuritySettings {
   currentPassword: string;
   newPassword: string;
-  confirmPassword: string;
+  confirmPassword?: string;
 }
 
 export interface ConnectedAccount {
@@ -113,8 +149,19 @@ export interface ConnectedAccount {
 
 // API Response Types
 export interface ProfileResponse {
-  user: User;
-  subscription: Subscription;
+  _id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  profilePic?: string;
+  status: string;
+  roles: string;
+  plan: string;
+  credits_used: number;
+  credits_total: number;
+  renewal_date?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface BillingHistoryResponse {
@@ -132,11 +179,25 @@ export interface ProjectsResponse {
   totalPages: number;
 }
 
+export interface BookmarkData {
+  _id: string;
+  user: string;
+  project: {
+    _id: string;
+    name: string;
+    thumbnail_url: string;
+  };
+  type: 'image' | 'text';
+  content: string;
+  createdAt: string;
+}
+
 export interface BookmarksResponse {
-  bookmarks: Bookmark[];
-  total: number;
+  data: BookmarkData[];
   page: number;
   limit: number;
+  totalDocs: number;
+  totalPages: number;
 }
 
 export interface SettingsResponse {

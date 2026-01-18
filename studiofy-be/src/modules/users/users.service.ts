@@ -1,4 +1,4 @@
-import { BadRequestException, ForbiddenException, Inject, Injectable } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User, UserDocument, UserWithoutPassword } from './entities/users.entity';
@@ -10,6 +10,7 @@ import { GcsService } from 'src/gcs/gcs.service';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { createHash } from 'crypto';
 import { UserStatus } from './enums/user-status';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -141,5 +142,41 @@ export class UsersService {
 
     if (!user) throw new BadRequestException('Invalid or expired token');
     return user;
+  }
+
+  async softDelete(id: string, ability: AppAbility): Promise<void> {
+    const userToDelete = await this.userModel.findById(id);
+    if (!userToDelete) throw new BadRequestException('User not found');
+
+    if (ability.cannot(Action.Delete, userToDelete)) {
+      throw new ForbiddenException('You cannot delete this user');
+    }
+
+    await this.userModel.findByIdAndUpdate(id, {
+      $set: { status: UserStatus.DELETED },
+    });
+  }
+
+  async updatePassword(
+    userId: string,
+    currentPassword: string,
+    newPassword: string,
+  ): Promise<void> {
+    const user = await this.userModel.findById(userId).select('+password');
+    if (!user) throw new BadRequestException('User not found');
+
+    const isValid = await bcrypt.compare(currentPassword, user.password);
+    if (!isValid) throw new UnauthorizedException('Current password is incorrect');
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    await this.userModel.findByIdAndUpdate(userId, {
+      $set: { password: hashedPassword },
+    });
+  }
+
+  async updateCredits(userId: string, creditsUsed: number): Promise<void> {
+    await this.userModel.findByIdAndUpdate(userId, {
+      $inc: { credits_used: creditsUsed },
+    });
   }
 }
