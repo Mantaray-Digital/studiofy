@@ -23,9 +23,9 @@ export interface ProjectMeta {
 export interface Project {
   _id: string;
   name: string;
-  thumbnailUrl: string;
-  outputs: ProjectOutputs;
-  meta: ProjectMeta;
+  thumbnail_url: string;
+  outputs?: ProjectOutputs;
+  meta?: ProjectMeta;
   createdAt: string;
 }
 
