@@ -1,10 +1,11 @@
 import type { NextConfig } from 'next';
+import { resolve } from 'path';
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  // Set Turbopack root to silence the multiple lockfiles warning
+  // Set Turbopack root to monorepo root for proper resolution
   turbopack: {
-    root: process.cwd(),
+    root: resolve(__dirname, '..'),
   },
   images: {
     remotePatterns: [
