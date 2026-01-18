@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ChevronDown } from 'lucide-react';
+import { useLogout } from '@/hooks/auth/useLogout';
 
 interface GenerateHeaderProps {
   showUserProfile?: boolean;
@@ -11,6 +12,7 @@ interface GenerateHeaderProps {
 
 export function GenerateHeader({ showUserProfile = true }: GenerateHeaderProps) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const { logout, isPending: isLoggingOut } = useLogout();
 
   return (
     <header className="w-full h-[83px] bg-white border-b border-gray-100">
@@ -82,10 +84,14 @@ export function GenerateHeader({ showUserProfile = true }: GenerateHeaderProps) 
                   <hr className="my-1 border-gray-100" />
                   <button
                     type="button"
-                    className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
-                    onClick={() => setIsDropdownOpen(false)}
+                    className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 disabled:opacity-50"
+                    disabled={isLoggingOut}
+                    onClick={() => {
+                      setIsDropdownOpen(false);
+                      logout();
+                    }}
                   >
-                    Sign Out
+                    {isLoggingOut ? 'Signing out...' : 'Sign Out'}
                   </button>
                 </div>
               </>

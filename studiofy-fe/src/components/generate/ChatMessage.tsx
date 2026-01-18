@@ -53,6 +53,22 @@ export function ChatMessage({ message, isTyping = false }: ChatMessageProps) {
               </div>
             )}
             <p className="text-sm text-gray-700">{message.content}</p>
+
+            {/* Generated Images */}
+            {message.generatedImages && message.generatedImages.length > 0 && (
+              <div className="mt-3 grid gap-2">
+                {message.generatedImages.map((imageUrl, index) => (
+                  <div key={index} className="relative aspect-square rounded-lg overflow-hidden">
+                    <Image
+                      src={imageUrl}
+                      alt={`Generated image ${index + 1}`}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
       </div>
