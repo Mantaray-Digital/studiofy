@@ -85,7 +85,7 @@ export function useDeleteAccount() {
   const router = useRouter();
 
   return useMutation({
-    mutationFn: deleteAccount,
+    mutationFn: (userId: string) => deleteAccount(userId),
     onMutate: () => {
       toast.loading('Deleting account...', { id: TOAST_ID });
     },

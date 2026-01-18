@@ -11,13 +11,10 @@ import { BookmarksGrid } from '@/components/dashboard/BookmarksGrid';
 import { SettingsContent } from '@/components/dashboard/SettingsContent';
 import { useProjects } from '@/hooks/projects/useProjects';
 import { useSubscriptionDashboard } from '@/hooks/subscriptions/useSubscriptionDashboard';
-
-// Mock data - replace with real data from API
-const mockUser = {
-  name: 'Ibrahim Mahmoud',
-  email: 'ibrahimmahmoud@gmail.com',
-  avatarUrl: '/images/avatar.svg',
-};
+import { useProfile, useUpdateProfile, useCancelSubscription, useDownloadInvoice, useBillingHistory } from '@/hooks/profile/useProfile';
+import { useBookmarks, useRemoveBookmark } from '@/hooks/profile/useBookmarks';
+import { useSettings, useUpdatePassword, useConnectAccount, useDisconnectAccount, useDeleteAccount } from '@/hooks/profile/useSettings';
+import { createProject, deleteProject } from '@/api/profile.api';
 
 function formatRenewsDate(iso: string) {
   const d = new Date(iso);
@@ -97,61 +94,97 @@ type TabKey = 'dashboard' | 'projects' | 'bookmarks' | 'settings';
 export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState<TabKey>('dashboard');
 
+  // Profile data
+  const profileQuery = useProfile();
+  const userData = profileQuery.data?.data;
+  const userName = userData ? `${userData.firstName} ${userData.lastName}` : '';
+  const userEmail = userData?.email || '';
+  const userId = userData?._id || '';
+
+  // Subscription data
   const subscriptionDashboardQuery = useSubscriptionDashboard();
   const dashboardPlan = subscriptionDashboardQuery.data?.data?.plan;
   const dashboardUsage = subscriptionDashboardQuery.data?.data?.usage;
 
+  // Projects data
   const projectsQuery = useProjects(1, 20);
   const projects =
     projectsQuery.data?.data?.data?.map((p) => ({
       id: p._id,
       name: p.name,
-      thumbnail: p.thumbnailUrl,
+      thumbnail: p.thumbnail_url,
       assetCount: p.outputs?.images?.length ?? p.meta?.quantity ?? 0,
       createdAt: formatProjectDate(p.createdAt),
     })) ?? [];
 
+  // Bookmarks data
+  const bookmarksQuery = useBookmarks(1, 20);
+  const bookmarks =
+    bookmarksQuery.data?.data?.data?.map((b) => ({
+      id: b._id,
+      name: b.project?.name || 'Untitled',
+      thumbnail: b.type === 'image' ? b.content : b.project?.thumbnail_url,
+      url: b.content,
+    })) ?? [];
+
+  // Mutations
+  const cancelSubscriptionMutation = useCancelSubscription();
+  const downloadInvoiceMutation = useDownloadInvoice();
+  const updateProfileMutation = useUpdateProfile();
+  const updatePasswordMutation = useUpdatePassword();
+  const connectAccountMutation = useConnectAccount();
+  const disconnectAccountMutation = useDisconnectAccount();
+  const deleteAccountMutation = useDeleteAccount();
+  const removeBookmarkMutation = useRemoveBookmark();
+
   const handleCancelSubscription = () => {
-    // TODO: Implement subscription cancellation
-    console.log('Cancel subscription clicked');
+    cancelSubscriptionMutation.mutate();
   };
 
   const handleManageBilling = () => {
-    // TODO: Redirect to billing portal
-    console.log('Manage billing clicked');
+    setActiveTab('dashboard');
   };
 
   const handleDownloadInvoice = (invoiceId: string) => {
-    // TODO: Download invoice PDF
-    console.log('Download invoice:', invoiceId);
+    downloadInvoiceMutation.mutate(invoiceId);
   };
 
   // Projects handlers
-  const handleCreateProject = () => {
-    // TODO: Open create project modal or navigate to create page
-    console.log('Create project clicked');
+  const handleCreateProject = async () => {
+    const name = prompt('Enter project name:');
+    if (name) {
+      await createProject(name);
+      projectsQuery.refetch();
+    }
   };
 
-  const handleDeleteProject = (projectId: string) => {
-    // TODO: Delete project
-    console.log('Delete project:', projectId);
+  const handleDeleteProject = async (projectId: string) => {
+    if (confirm('Are you sure you want to delete this project?')) {
+      await deleteProject(projectId);
+      projectsQuery.refetch();
+    }
   };
 
   // Bookmarks handlers
   const handleRemoveBookmark = (bookmarkId: string) => {
-    // TODO: Remove bookmark
-    console.log('Remove bookmark:', bookmarkId);
+    removeBookmarkMutation.mutate(bookmarkId);
   };
 
   const handleOpenBookmark = (url: string) => {
-    // TODO: Open bookmark in new tab
     window.open(url, '_blank');
   };
 
   // Settings handlers
   const handleUpdateProfile = (data: { fullName: string; email: string }) => {
-    // TODO: Update profile
-    console.log('Update profile:', data);
+    if (!userId) return;
+    const [firstName, ...lastNameParts] = data.fullName.split(' ');
+    updateProfileMutation.mutate({
+      userId,
+      data: {
+        firstName,
+        lastName: lastNameParts.join(' ') || firstName,
+      },
+    });
   };
 
   const handleUpdatePassword = (data: {
@@ -159,32 +192,34 @@ export default function ProfilePage() {
     newPassword: string;
     confirmPassword: string;
   }) => {
-    // TODO: Update password
-    console.log('Update password:', data);
+    updatePasswordMutation.mutate({
+      currentPassword: data.currentPassword,
+      newPassword: data.newPassword,
+    });
   };
 
   const handleConnectAccount = (provider: string) => {
-    // TODO: Connect account
-    console.log('Connect account:', provider);
+    connectAccountMutation.mutate(provider);
   };
 
   const handleDisconnectAccount = (provider: string) => {
-    // TODO: Disconnect account
-    console.log('Disconnect account:', provider);
+    disconnectAccountMutation.mutate(provider);
   };
 
   const handleDeleteAccount = () => {
-    // TODO: Delete account
-    console.log('Delete account clicked');
+    if (!userId) return;
+    if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+      deleteAccountMutation.mutate(userId);
+    }
   };
 
   return (
     <div className="max-w-[1240px] mx-auto px-4 md:px-6 lg:px-8 py-8">
       {/* Profile Header */}
       <ProfileHeader
-        name={mockUser.name}
-        email={mockUser.email}
-        avatarUrl={mockUser.avatarUrl}
+        name={userName || 'Loading...'}
+        email={userEmail}
+        avatarUrl={userData?.profilePic || '/images/avatar.svg'}
         isOnline={true}
       />
 
@@ -253,8 +288,14 @@ export default function ProfilePage() {
       {/* Bookmarks Tab Content */}
       {activeTab === 'bookmarks' && (
         <div className="mt-8">
+          {bookmarksQuery.isLoading && (
+            <div className="text-sm text-gray-600">Loading bookmarks...</div>
+          )}
+          {bookmarksQuery.isError && (
+            <div className="text-sm text-red-600">Failed to load bookmarks.</div>
+          )}
           <BookmarksGrid
-            bookmarks={mockBookmarks}
+            bookmarks={bookmarks.length > 0 ? bookmarks : mockBookmarks}
             onRemoveBookmark={handleRemoveBookmark}
             onOpenBookmark={handleOpenBookmark}
           />
@@ -266,8 +307,8 @@ export default function ProfilePage() {
         <div className="mt-8">
           <SettingsContent
             profile={{
-              fullName: mockUser.name,
-              email: mockUser.email,
+              fullName: userName,
+              email: userEmail,
             }}
             connectedAccounts={mockConnectedAccounts}
             onUpdateProfile={handleUpdateProfile}

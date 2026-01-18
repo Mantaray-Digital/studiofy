@@ -4,7 +4,7 @@ import * as bcrypt from 'bcrypt';
 import * as crypto from 'crypto';
 import { UserStatus } from '../enums/user-status';
 import { UserRole } from '../enums/user-role';
-import { BillingRecord, BillingRecordSchema } from './billing.entity';
+import { BillingRecord, BillingRecordSchema, CreditTransaction, CreditTransactionSchema } from './billing.entity';
 
 export type UserDocument = HydratedDocument<User>;
 
@@ -71,6 +71,8 @@ export class User {
   @Prop({ type: [BillingRecordSchema], default: [] })
   billing_history: BillingRecord[];
 
+  @Prop({ type: [CreditTransactionSchema], default: [] })
+  credit_history: CreditTransaction[];
 
   validatePassword: (this: UserDocument, password: string) => Promise<boolean>;
   createPasswordRestToken: (this: UserDocument) => string;
