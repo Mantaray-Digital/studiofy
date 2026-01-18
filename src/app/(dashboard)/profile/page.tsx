@@ -9,6 +9,8 @@ import { BillingHistoryTable } from '@/components/dashboard/BillingHistoryTable'
 import { ProjectsGrid } from '@/components/dashboard/ProjectsGrid';
 import { BookmarksGrid } from '@/components/dashboard/BookmarksGrid';
 import { SettingsContent } from '@/components/dashboard/SettingsContent';
+import { useProjects } from '@/hooks/projects/useProjects';
+import { useSubscriptionDashboard } from '@/hooks/subscriptions/useSubscriptionDashboard';
 
 // Mock data - replace with real data from API
 const mockUser = {
@@ -17,15 +19,11 @@ const mockUser = {
   avatarUrl: '/images/avatar.svg',
 };
 
-const mockPlan = {
-  name: 'Pro Plan',
-  price: 29,
-  billingPeriod: 'month' as const,
-  renewalDate: 'December 30, 2025',
-  creditsUsed: 42,
-  creditsTotal: 100,
-  isActive: true,
-};
+function formatRenewsDate(iso: string) {
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return iso;
+  return d.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: '2-digit' });
+}
 
 const mockInvoices = [
   {
@@ -51,29 +49,11 @@ const mockInvoices = [
   },
 ];
 
-const mockProjects = [
-  {
-    id: '1',
-    name: 'Summer Collection',
-    thumbnail: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=300&fit=crop',
-    assetCount: 24,
-    createdAt: 'Dec 15, 2024',
-  },
-  {
-    id: '2',
-    name: 'Product Shots',
-    thumbnail: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=300&fit=crop',
-    assetCount: 18,
-    createdAt: 'Dec 10, 2024',
-  },
-  {
-    id: '3',
-    name: 'Brand Assets',
-    thumbnail: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=300&fit=crop',
-    assetCount: 42,
-    createdAt: 'Nov 28, 2024',
-  },
-];
+function formatProjectDate(iso: string) {
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return iso;
+  return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: '2-digit' });
+}
 
 const mockBookmarks = [
   {
@@ -116,6 +96,20 @@ type TabKey = 'dashboard' | 'projects' | 'bookmarks' | 'settings';
 
 export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState<TabKey>('dashboard');
+
+  const subscriptionDashboardQuery = useSubscriptionDashboard();
+  const dashboardPlan = subscriptionDashboardQuery.data?.data?.plan;
+  const dashboardUsage = subscriptionDashboardQuery.data?.data?.usage;
+
+  const projectsQuery = useProjects(1, 20);
+  const projects =
+    projectsQuery.data?.data?.data?.map((p) => ({
+      id: p._id,
+      name: p.name,
+      thumbnail: p.thumbnailUrl,
+      assetCount: p.outputs?.images?.length ?? p.meta?.quantity ?? 0,
+      createdAt: formatProjectDate(p.createdAt),
+    })) ?? [];
 
   const handleCancelSubscription = () => {
     // TODO: Implement subscription cancellation
@@ -210,14 +204,20 @@ export default function ProfilePage() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
               {/* Plan Card - takes 2/3 of the space */}
               <div className="lg:col-span-2">
+                {subscriptionDashboardQuery.isLoading && (
+                  <div className="text-sm text-gray-600">Loading plan...</div>
+                )}
+                {subscriptionDashboardQuery.isError && (
+                  <div className="text-sm text-red-600">Failed to load plan.</div>
+                )}
                 <CurrentPlanCard
-                  planName={mockPlan.name}
-                  price={mockPlan.price}
-                  billingPeriod={mockPlan.billingPeriod}
-                  renewalDate={mockPlan.renewalDate}
-                  creditsUsed={mockPlan.creditsUsed}
-                  creditsTotal={mockPlan.creditsTotal}
-                  isActive={mockPlan.isActive}
+                  planName={dashboardPlan?.name ?? '—'}
+                  price={dashboardPlan?.price ?? 0}
+                  billingPeriod="month"
+                  renewalDate={dashboardPlan?.renewsDate ? formatRenewsDate(dashboardPlan.renewsDate) : '—'}
+                  creditsUsed={dashboardUsage?.balance ?? 0}
+                  creditsTotal={dashboardUsage?.limit ?? 0}
+                  isActive={(dashboardPlan?.status ?? '').toLowerCase() === 'active'}
                   onCancelSubscription={handleCancelSubscription}
                 />
               </div>
@@ -229,20 +229,21 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          {/* Billing History Section */}
-          <BillingHistoryTable
-            invoices={mockInvoices}
-            onManageBilling={handleManageBilling}
-            onDownloadInvoice={handleDownloadInvoice}
-          />
+       
         </div>
       )}
 
       {/* Projects Tab Content */}
       {activeTab === 'projects' && (
         <div className="mt-8">
+          {projectsQuery.isLoading && (
+            <div className="text-sm text-gray-600">Loading projects...</div>
+          )}
+          {projectsQuery.isError && (
+            <div className="text-sm text-red-600">Failed to load projects.</div>
+          )}
           <ProjectsGrid
-            projects={mockProjects}
+            projects={projects}
             onCreateProject={handleCreateProject}
             onDeleteProject={handleDeleteProject}
           />

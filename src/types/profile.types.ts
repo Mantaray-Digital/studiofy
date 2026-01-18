@@ -52,13 +52,33 @@ export interface Invoice {
 }
 
 // Project Types
+export interface ProjectListing {
+  title: string;
+  description: string;
+  keywords: string[];
+}
+
+export interface ProjectOutputs {
+  images: string[];
+  caption: string;
+  listing?: ProjectListing;
+}
+
+export interface ProjectMeta {
+  productContext: string;
+  styleProfile: string;
+  quantity: number;
+  includeCaption?: string;
+  includeListing?: string;
+}
+
 export interface Project {
-  id: string;
+  _id: string;
   name: string;
   thumbnailUrl: string;
+  outputs: ProjectOutputs;
+  meta: ProjectMeta;
   createdAt: string;
-  updatedAt: string;
-  assetsCount: number;
 }
 
 // Bookmark Types
@@ -105,10 +125,11 @@ export interface BillingHistoryResponse {
 }
 
 export interface ProjectsResponse {
-  projects: Project[];
-  total: number;
+  data: Project[];
   page: number;
   limit: number;
+  totalDocs: number;
+  totalPages: number;
 }
 
 export interface BookmarksResponse {

@@ -149,7 +149,7 @@ export function SettingsContent({
       </div>
 
       {/* Security Section */}
-      <div className="bg-white rounded-xl shadow-sm p-6">
+      {/* <div className="bg-white rounded-xl shadow-sm p-6">
         <div className="flex items-center gap-3 mb-1">
           <div className="w-8 h-8 rounded-full bg-[var(--color-blue-100)] flex items-center justify-center">
             <Lock className="w-4 h-4 text-[var(--color-blue-600)]" />
@@ -238,10 +238,10 @@ export function SettingsContent({
             </button>
           </div>
         </form>
-      </div>
+      </div> */}
 
       {/* Connected Accounts Section */}
-      <div className="bg-white rounded-xl shadow-sm p-6">
+      {/* <div className="bg-white rounded-xl shadow-sm p-6">
         <div className="flex items-center gap-3 mb-1">
           <div className="w-8 h-8 rounded-full bg-[var(--color-blue-100)] flex items-center justify-center">
             <Link2 className="w-4 h-4 text-[var(--color-blue-600)]" />
@@ -301,10 +301,10 @@ export function SettingsContent({
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
 
       {/* Delete Account Section */}
-      <div className="flex justify-end">
+      {/* <div className="flex justify-end">
         {showDeleteConfirm ? (
           <div className="flex items-center gap-3">
             <span className="text-sm text-gray-600">Are you sure?</span>
@@ -335,7 +335,7 @@ export function SettingsContent({
             Delete Account
           </button>
         )}
-      </div>
+      </div> */}
     </div>
   );
 }

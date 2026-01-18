@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { Check, ArrowRight } from 'lucide-react';
+import { useSubscriptionPlans } from '@/hooks/subscriptions/useSubscriptionPlans';
 
 interface PricingPlan {
   name: string;
@@ -14,49 +15,24 @@ interface PricingPlan {
   badge?: string;
 }
 
-const plans: PricingPlan[] = [
-  {
-    name: 'Free',
-    description: 'Great for trying out features.',
-    price: 0,
-    yearlyPrice: 0,
-    features: [
-      'Increased Usage Limits',
-      'Priority Support',
-      'Multi-User Support',
-      'Increased Storage',
-    ],
-  },
-  {
-    name: 'Pro',
-    description: 'Best for small businesses.',
-    price: 29,
-    yearlyPrice: 290,
-    features: [
-      'Increased Usage Limits',
-      'Priority Support',
-      'Multi-User Support',
-      'Increased Storage',
-    ],
-    highlighted: true,
-    badge: 'Best Plan',
-  },
-  {
-    name: 'Agency',
-    description: 'Perfect for advanced needs.',
-    price: 99,
-    yearlyPrice: 990,
-    features: [
-      'Increased Usage Limits',
-      'Priority Support',
-      'Multi-User Support',
-      'Increased Storage',
-    ],
-  },
-];
+function mapPlansToUi(plans: { name: string; tier: string; price: number; description: string; features: string[] }[]) {
+  const sorted = [...plans].sort((a, b) => a.price - b.price);
+
+  return sorted.map<PricingPlan>((p) => ({
+    name: p.name,
+    description: p.description,
+    price: p.price,
+    yearlyPrice: p.price * 12,
+    features: p.features,
+    highlighted: p.tier === 'PRO',
+    badge: p.tier === 'PRO' ? 'Best Plan' : undefined,
+  }));
+}
 
 export function PricingSection() {
   const [isYearly, setIsYearly] = useState(false);
+  const plansQuery = useSubscriptionPlans();
+  const plans = mapPlansToUi(plansQuery.data?.data ?? []);
 
   return (
     <section className="bg-white px-4 md:px-8 py-16 md:py-24">
@@ -72,7 +48,7 @@ export function PricingSection() {
           <button
             type="button"
             onClick={() => setIsYearly(!isYearly)}
-            className="relative w-[60px] md:w-[74px] h-8 md:h-10 rounded-full bg-[var(--color-blue-600)] transition-colors"
+            className="relative w-[60px] md:w-[74px] h-8 md:h-10 rounded-full bg-blue-600 transition-colors"
           >
             <div
               className={`absolute top-1 w-6 md:w-8 h-6 md:h-8 rounded-full bg-white shadow-md transition-transform ${
@@ -85,6 +61,12 @@ export function PricingSection() {
 
         {/* Pricing Cards */}
         <div className="flex flex-col md:flex-row items-stretch gap-4 md:gap-6 w-full max-w-[1100px] justify-center">
+          {plansQuery.isLoading && (
+            <div className="text-sm text-gray-600">Loading plans...</div>
+          )}
+          {plansQuery.isError && (
+            <div className="text-sm text-red-600">Failed to load plans.</div>
+          )}
           {plans.map((plan) => (
             <div
               key={plan.name}

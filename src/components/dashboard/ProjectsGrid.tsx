@@ -2,6 +2,7 @@
 
 import { Plus, Folder, MoreVertical, Trash2 } from 'lucide-react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 interface Project {
@@ -14,7 +15,7 @@ interface Project {
 
 interface ProjectsGridProps {
   projects: Project[];
-  onCreateProject: () => void;
+  onCreateProject?: () => void;
   onDeleteProject: (projectId: string) => void;
 }
 
@@ -23,6 +24,7 @@ export function ProjectsGrid({
   onCreateProject,
   onDeleteProject,
 }: ProjectsGridProps) {
+  const router = useRouter();
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
 
   const toggleMenu = (projectId: string) => {
@@ -34,13 +36,16 @@ export function ProjectsGrid({
       {/* Create New Project Card */}
       <button
         type="button"
-        onClick={onCreateProject}
-        className="group relative aspect-[4/3] rounded-xl border-2 border-dashed border-gray-300 bg-white hover:border-[var(--color-blue-600)] hover:bg-blue-50 transition-all flex flex-col items-center justify-center gap-3"
+        onClick={() => {
+          onCreateProject?.();
+          router.push('/generate');
+        }}
+        className="group relative aspect-4/3 rounded-xl border-2 border-dashed border-gray-300 bg-white hover:border-blue-600 hover:bg-blue-50 transition-all flex flex-col items-center justify-center gap-3"
       >
-        <div className="w-12 h-12 rounded-full bg-gray-100 group-hover:bg-[var(--color-blue-100)] flex items-center justify-center transition-colors">
-          <Plus className="w-6 h-6 text-gray-500 group-hover:text-[var(--color-blue-600)]" />
+        <div className="w-12 h-12 rounded-full bg-gray-100 group-hover:bg-blue-100 flex items-center justify-center transition-colors">
+          <Plus className="w-6 h-6 text-gray-500 group-hover:text-blue-600" />
         </div>
-        <span className="text-sm font-medium text-gray-600 group-hover:text-[var(--color-blue-600)]">
+        <span className="text-sm font-medium text-gray-600 group-hover:text-blue-600">
           Create New Project
         </span>
       </button>
@@ -52,7 +57,7 @@ export function ProjectsGrid({
           className="relative bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow"
         >
           {/* Thumbnail */}
-          <div className="aspect-[4/3] bg-gray-100 relative">
+          <div className="aspect-4/3 bg-gray-100 relative">
             {project.thumbnail ? (
               <Image
                 src={project.thumbnail}
@@ -81,13 +86,7 @@ export function ProjectsGrid({
 
               {/* Menu Button */}
               <div className="relative">
-                <button
-                  type="button"
-                  onClick={() => toggleMenu(project.id)}
-                  className="p-1.5 rounded-full hover:bg-gray-100 transition-colors"
-                >
-                  <MoreVertical className="w-4 h-4 text-gray-500" />
-                </button>
+          
 
                 {/* Dropdown Menu */}
                 {openMenuId === project.id && (
