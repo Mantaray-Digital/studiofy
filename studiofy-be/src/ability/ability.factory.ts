@@ -27,6 +27,7 @@ export class AbilityFactory {
 
       can(Action.Read, User.name, { _id: user._id });
       can(Action.Update, User.name, { _id: user._id });
+      can(Action.Delete, User.name, { _id: user._id });
     }
 
     return build();

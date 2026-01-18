@@ -15,6 +15,10 @@ import { RedisModule } from '@nestjs-modules/ioredis';
 import { JwtModule } from '@nestjs/jwt';
 import { ProjectsModule } from './modules/projects/projects.module';
 import { BookmarksModule } from './modules/bookmarks/bookmarks.module';
+import { SubscriptionsModule } from './modules/subscriptions/subscriptions.module';
+import { BillingModule } from './modules/billing/billing.module';
+import { StylesModule } from './modules/styles/styles.module';
+import { GenerationModule } from './modules/generation/generation.module';
 
 
 @Module({
@@ -65,6 +69,10 @@ import { BookmarksModule } from './modules/bookmarks/bookmarks.module';
     GcsModule,
     ProjectsModule,
     BookmarksModule,
+    SubscriptionsModule,
+    BillingModule,
+    StylesModule,
+    GenerationModule,
   ],
   controllers: [AppController],
   providers: [AppService],

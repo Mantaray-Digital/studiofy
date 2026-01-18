@@ -15,17 +15,17 @@ interface PricingPlan {
   badge?: string;
 }
 
-function mapPlansToUi(plans: { name: string; tier: string; price: number; description: string; features: string[] }[]) {
+function mapPlansToUi(plans: { name: string; tier: string; price: number; yearlyPrice?: number; description: string; features: string[]; isPopular?: boolean }[]) {
   const sorted = [...plans].sort((a, b) => a.price - b.price);
 
   return sorted.map<PricingPlan>((p) => ({
     name: p.name,
     description: p.description,
     price: p.price,
-    yearlyPrice: p.price * 12,
+    yearlyPrice: p.yearlyPrice ?? p.price * 12,
     features: p.features,
-    highlighted: p.tier === 'PRO',
-    badge: p.tier === 'PRO' ? 'Best Plan' : undefined,
+    highlighted: p.isPopular ?? p.tier === 'PRO',
+    badge: (p.isPopular ?? p.tier === 'PRO') ? 'Best Plan' : undefined,
   }));
 }
 

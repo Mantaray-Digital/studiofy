@@ -4,9 +4,11 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Menu, X } from 'lucide-react';
+import { useLogout } from '@/hooks/auth/useLogout';
 
 export function DashboardHeader() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { logout, isPending: isLoggingOut } = useLogout();
 
   return (
     <header className="w-full h-16 bg-white border-b border-[#e5e7eb]">
@@ -77,10 +79,14 @@ export function DashboardHeader() {
             <hr className="my-2 border-gray-200" />
             <button
               type="button"
-              className="px-4 py-3 text-left text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-              onClick={() => setIsMobileMenuOpen(false)}
+              className="px-4 py-3 text-left text-red-600 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50"
+              disabled={isLoggingOut}
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                logout();
+              }}
             >
-              Sign Out
+              {isLoggingOut ? 'Signing out...' : 'Sign Out'}
             </button>
           </nav>
         </div>
