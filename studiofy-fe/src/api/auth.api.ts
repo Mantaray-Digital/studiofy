@@ -46,12 +46,10 @@ export async function verifyEmail(
   data: VerifyEmailInput,
 ): Promise<Response<null>> {
   try {
-    // Map verify-email data to reset-password endpoint format
-    const resetPasswordData = {
-      password: data.password,
-      resetToken: data.code,
-    };
-    const response = await apiClient.post('/auth/reset-password', resetPasswordData);
+    // Use PATCH /auth/verify-email with token
+    const response = await apiClient.patch('/auth/verify-email', {
+      token: data.code,
+    });
     return response.data;
   } catch (error) {
     handleApiError(error);
