@@ -88,6 +88,21 @@ export async function getBillingHistory(
   }
 }
 
+export async function getInvoice(invoiceId: string): Promise<Response<{
+  invoiceNumber: string;
+  date: string;
+  amount: number;
+  status: string;
+  downloadUrl?: string;
+}>> {
+  try {
+    const response = await apiClient.get(`/billing/invoice/${invoiceId}`);
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+}
+
 export async function downloadInvoice(invoiceId: string): Promise<Blob> {
   try {
     const response = await apiClient.get(`/billing/invoice/${invoiceId}/download`, {
